@@ -2,8 +2,8 @@
 
 # Saloon SDK Generator - Simplified SDK Scaffolding 🚀
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/crescat-io/saloon-sdk-generator.svg?style=flat-square)](https://packagist.org/packages/crescat-io/saloon-sdk-generator)
-[![Total Downloads](https://img.shields.io/packagist/dt/crescat-io/saloon-sdk-generator.svg?style=flat-square)](https://packagist.org/packages/crescat-io/saloon-sdk-generator)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/machatschek/saloon-sdk-generator.svg?style=flat-square)](https://packagist.org/packages/machatschek/saloon-sdk-generator)
+[![Total Downloads](https://img.shields.io/packagist/dt/machatschek/saloon-sdk-generator.svg?style=flat-square)](https://packagist.org/packages/machatschek/saloon-sdk-generator)
 
 Introducing the Saloon SDK Generator – your tool for quickly creating the basic structure of PHP SDKs using the
 powerful [Saloon](https://docs.saloon.dev/) package.
@@ -26,7 +26,7 @@ Your journey to crafting a tailored SDK starts here – with the Saloon SDK Gene
 You can install this package using Composer:
 
 ```shell
-composer global require crescat-io/saloon-sdk-generator
+composer global require machatschek/saloon-sdk-generator
 ```
 
 ## Usage
@@ -37,12 +37,12 @@ To generate the PHP SDK from an API specification file, run the following comman
 
 ```shell
 sdkgenerator generate:sdk API_SPEC_FILE.{json|yaml|yml}
-     --type={postman|openapi} 
-    [--name=SDK_NAME] 
-    [--output=OUTPUT_PATH] 
-    [--namespace=Company\\Integration] 
-    [--force] 
-    [--dry] 
+     --type={postman|openapi}
+    [--name=SDK_NAME]
+    [--output=OUTPUT_PATH]
+    [--namespace=Company\\Integration]
+    [--force]
+    [--dry]
     [--zip]
 ```
 
@@ -61,11 +61,11 @@ Replace the placeholders with the appropriate values:
 so:
 
 ```shell
-sdkgenerator generate:sdk ./tests/Samples/paddle.json 
-  --force 
-  --type=postman 
-  --name=Paddle  
-  --output ./paddle-sdk/src 
+sdkgenerator generate:sdk ./tests/Samples/paddle.json
+  --force
+  --type=postman
+  --name=Paddle
+  --output ./paddle-sdk/src
   --namespace=Your\\Sdk\\Namespace # <-- Note the "\\"
 ```
 
@@ -429,7 +429,7 @@ While we welcome reports about these incompatibilities, it's important to note t
 for our internal use and has been open-sourced to share with the community.
 
 If you encounter issues or incompatibilities while generating SDKs from your API specifications, we encourage you to
-report them on our [GitHub Issue Tracker](https://github.com/crescat-io/saloon-sdk-generator/issues). Your feedback is
+report them on our [GitHub Issue Tracker](https://github.com/machatschek/saloon-sdk-generator/issues). Your feedback is
 valuable and can help us improve the tool over time.
 
 However, please understand that due to the nature of the project and our own priorities, we may not always be able to
@@ -469,7 +469,7 @@ composer build
     - If you want resource classes or not
     - failure handling  (AlwaysThrowOnErrors, custom exception classes,
       or [custom method](https://docs.saloon.dev/the-basics/handling-failures#customising-when-saloon-thinks-a-request-has-failed))
-    - etc... (feel free to [add suggestions](https://github.com/crescat-io/saloon-sdk-generator/issues))
+    - etc... (feel free to [add suggestions](https://github.com/machatschek/saloon-sdk-generator/issues))
 - Configurable Conflict Resolver
     - (overwrite (same as --force),
     - new (parse code and only add code that is "new", aka new params, new methods),
@@ -485,7 +485,7 @@ composer build
 ## Contributing
 
 Contributions to this package are welcome! If you find any issues or want to suggest improvements, please submit a pull
-request or open an issue in the [Issue Tracker](https://github.com/crescat-io/saloon-sdk-generator/issues).
+request or open an issue in the [Issue Tracker](https://github.com/machatschek/saloon-sdk-generator/issues).
 
 ## Credits
 

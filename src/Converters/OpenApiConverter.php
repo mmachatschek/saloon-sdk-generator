@@ -22,7 +22,7 @@ class OpenApiConverter
     {
         $response = Http::asJson()
             ->acceptJson()
-            ->withUserAgent('Saloon SDK Generator (https://github.com/crescat-io/saloon-sdk-generator)')
+            ->withUserAgent('Saloon SDK Generator (https://github.com/machatschek/saloon-sdk-generator)')
             ->withBody($content)
             ->post('https://converter.swagger.io/api/convert');
 
