@@ -115,9 +115,18 @@ class ResourceGenerator extends Generator
                 $args[] = new Literal(sprintf('$%s', NameHelper::safeVariableName($parameter->name)));
             }
 
-            $method->setBody(
-                new Literal(sprintf('return $this->connector->send(new %s(%s));', $requestClassNameAlias ?? $requestClassName, implode(', ', $args)))
-            );
+            if ($endpoint->method->isPost() || $endpoint->method->isPatch() || $endpoint->method->isPut()) {
+                $requestParameter = new Parameter('array', true, 'body');
+                $this->addPropertyToMethod($method, $requestParameter);
+
+                $method->setBody(
+                    new Literal(sprintf("\$request = new %s(%s);\n\$request->body()->merge(\$body ?? []);\nreturn \$this->connector->send(\$request);", $requestClassNameAlias ?? $requestClassName, implode(', ', $args)))
+                );
+            } else {
+                $method->setBody(
+                    new Literal(sprintf('return $this->connector->send(new %s(%s));', $requestClassNameAlias ?? $requestClassName, implode(', ', $args)))
+                );
+            }
 
         }
 
