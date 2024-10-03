@@ -1,3 +1,6 @@
+## Atention
+This is a fork of [crescat-io/saloon-sdk-generator](https://github.com/crescat-io/saloon-sdk-generator). The fork adds some additional Bugfixes + Support for OpenAPI V3.1 specs.
+
 <p align="center"><img src=".github/header.png"></p>
 
 # Saloon SDK Generator - Simplified SDK Scaffolding 🚀
