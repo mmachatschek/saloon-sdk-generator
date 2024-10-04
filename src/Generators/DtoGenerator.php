@@ -55,7 +55,6 @@ class DtoGenerator extends Generator
         $generatedMappings = false;
 
         foreach ($properties as $propertyName => $propertySpec) {
-
             $type = $this->convertOpenApiTypeToPhp($propertySpec);
             $sub = NameHelper::dtoClassName($type);
 
@@ -70,8 +69,11 @@ class DtoGenerator extends Generator
 
             $property = $classConstructor->addPromotedParameter($name)
                 ->setType($propertySpec instanceof Reference ? $namespace->resolveName($sub) : $type)
-                ->setPublic()
-                ->setDefaultValue(null);
+                ->setPublic();
+
+            if (!in_array($name, $schema->required)) {
+                $property->setDefaultValue(null);
+            }
 
             if ($name != $propertyName) {
                 $property->addAttribute(MapName::class, [$propertyName]);
