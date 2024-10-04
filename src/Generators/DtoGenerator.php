@@ -71,7 +71,7 @@ class DtoGenerator extends Generator
                 ->setType($propertySpec instanceof Reference ? $namespace->resolveName($sub) : $type)
                 ->setPublic();
 
-            if (!in_array($name, $schema->required)) {
+            if (!in_array($name, ($schema->required ?? []))) {
                 $property->setDefaultValue(null);
             }
 
