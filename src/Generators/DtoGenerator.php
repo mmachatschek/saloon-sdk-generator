@@ -8,6 +8,7 @@ use Crescat\SaloonSdkGenerator\Data\Generator\ApiSpecification;
 use Crescat\SaloonSdkGenerator\Generator;
 use Crescat\SaloonSdkGenerator\Helpers\NameHelper;
 use Crescat\SaloonSdkGenerator\Helpers\Utils;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Nette\PhpGenerator\ClassType;
 use Nette\PhpGenerator\PhpFile;
@@ -53,7 +54,11 @@ class DtoGenerator extends Generator
 
         $generatedMappings = false;
 
-        foreach ($properties as $propertyName => $propertySpec) {
+        $requiredAndOptionalPropertiesOrdered = Arr::sort($properties, function ($propertySpec, $propertyName) use ($schema) {
+            return !in_array($propertyName, ($schema->required ?? []));
+        });
+
+        foreach ($requiredAndOptionalPropertiesOrdered as $propertyName => $propertySpec) {
             $type = $this->convertOpenApiTypeToPhp($propertySpec);
             $sub = NameHelper::dtoClassName($type);
 
