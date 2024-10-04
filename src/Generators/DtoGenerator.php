@@ -34,7 +34,6 @@ class DtoGenerator extends Generator
 
     protected function generateDtoClass($className, Schema $schema)
     {
-
         /** @var Schema[] $properties */
         $properties = $schema->properties ?? [];
 
@@ -71,7 +70,7 @@ class DtoGenerator extends Generator
                 ->setType($propertySpec instanceof Reference ? $namespace->resolveName($sub) : $type)
                 ->setPublic();
 
-            if (!in_array($name, ($schema->required ?? []))) {
+            if (!in_array($propertyName, ($schema->required ?? []))) {
                 $property->setDefaultValue(null);
             }
 
