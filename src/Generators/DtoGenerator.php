@@ -61,14 +61,6 @@ class DtoGenerator extends Generator
         foreach ($requiredAndOptionalPropertiesOrdered as $propertyName => $propertySpec) {
             $type = $this->convertOpenApiTypeToPhp($propertySpec);
             $sub = NameHelper::dtoClassName($type);
-
-            if ($type === 'object' || $type == 'array') {
-
-                if (! isset($this->generated[$sub]) && ! empty($propertySpec->properties)) {
-                    $this->generated[$sub] = $this->generateDtoClass($propertyName, $propertySpec);
-                }
-            }
-
             $name = NameHelper::safeVariableName($propertyName);
 
             $property = $classConstructor->addPromotedParameter($name)
@@ -77,6 +69,26 @@ class DtoGenerator extends Generator
 
             if (!in_array($propertyName, ($schema->required ?? []))) {
                 $property->setDefaultValue(null);
+            }
+
+            if ($type === 'object' || $type == 'array') {
+                if (!isset($this->generated[$sub]) && !empty($propertySpec->properties)) {
+                    $this->generated[$sub] = $this->generateDtoClass($propertyName, $propertySpec);
+                } else if (
+                    $type == 'array' &&
+                    $propertySpec instanceof Schema &&
+                    !empty($propertySpec->items) &&
+                    $propertySpec->items instanceof Reference
+                ) {
+                    $typeProperty = $this->convertOpenApiTypeToPhp($propertySpec->items);
+                    $refName = NameHelper::dtoClassName($typeProperty);
+
+                    if (!isset($this->generated[$refName]) && !empty($propertySpec->properties)) {
+                        $this->generated[$refName] = $this->generateDtoClass($propertyName, $propertySpec);
+                    }
+
+                    $property->addComment(sprintf('/** @var array<%s> */', $refName));
+                }
             }
 
             if ($name != $propertyName) {
