@@ -73,7 +73,7 @@ class DtoGenerator extends Generator
 
             if ($type === 'object' || $type == 'array') {
                 if (!isset($this->generated[$sub]) && !empty($propertySpec->properties)) {
-                    $this->generated[$sub] = $this->generateDtoClass($propertyName, $propertySpec);
+                    $this->generated[$sub] = $this->generateDtoClass($className . Str::ucfirst($propertyName), $propertySpec);
                 } else if (
                     $type == 'array' &&
                     $propertySpec instanceof Schema &&
@@ -84,7 +84,7 @@ class DtoGenerator extends Generator
                     $refName = NameHelper::dtoClassName($typeProperty);
 
                     if (!isset($this->generated[$refName]) && !empty($propertySpec->properties)) {
-                        $this->generated[$refName] = $this->generateDtoClass($propertyName, $propertySpec);
+                        $this->generated[$refName] = $this->generateDtoClass($className . Str::ucfirst($propertyName), $propertySpec);
                     }
 
                     $property->addComment(sprintf('/** @var array<%s> */', $refName));
