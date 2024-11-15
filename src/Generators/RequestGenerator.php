@@ -74,7 +74,26 @@ class RequestGenerator extends Generator
             ->setReturnType('string')
             ->addBody(
                 collect($endpoint->pathSegments)
-                    ->map(function ($segment) {
+                    ->map(function ($segment) use ($endpoint) {
+                        if (
+                            count($endpoint->pathParameters) > 0 &&
+                            !Str::startsWith($segment, ':') &&
+                            Str::contains($segment, ':')
+                        ) {
+                            $pathParameters = collect($endpoint->pathParameters)->sortByDesc(function ($pathParameter) {
+                                return mb_strlen($pathParameter->name);
+                            });
+
+                            foreach ($pathParameters as $pathParameter) {
+                                $placeHolder = sprintf(':%s', $pathParameter->name);
+                                if (Str::contains($segment, $placeHolder)) {
+                                    $segment = Str::replaceFirst($placeHolder, sprintf('{$this->%s}', NameHelper::safeVariableName($placeHolder)), $segment);
+                                }
+                            }
+
+                            return $segment;
+                        }
+
                         return Str::startsWith($segment, ':')
                             ? new Literal(sprintf('{$this->%s}', NameHelper::safeVariableName($segment)))
                             : $segment;
