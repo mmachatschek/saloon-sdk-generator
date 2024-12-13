@@ -105,10 +105,15 @@ class RequestGenerator extends Generator
             );
 
         $classConstructor = $classType->addMethod('__construct');
+        $optionalParams = [];
 
         // Priority 1. - Path Parameters
         foreach ($endpoint->pathParameters as $pathParam) {
-            MethodGeneratorHelper::addParameterAsPromotedProperty($classConstructor, $pathParam);
+            if (!$pathParam->nullable) {
+                MethodGeneratorHelper::addParameterAsPromotedProperty($classConstructor, $pathParam);
+            } else {
+                $optionalParams[] = $pathParam;
+            }
         }
 
         // Priority 2. - Body Parameters
@@ -119,7 +124,11 @@ class RequestGenerator extends Generator
                 ->toArray();
 
             foreach ($bodyParams as $bodyParam) {
-                MethodGeneratorHelper::addParameterAsPromotedProperty($classConstructor, $bodyParam);
+                if (!$bodyParam->nullable) {
+                    MethodGeneratorHelper::addParameterAsPromotedProperty($classConstructor, $bodyParam);
+                } else {
+                    $optionalParams[] = $bodyParam;
+                }
             }
 
             MethodGeneratorHelper::generateArrayReturnMethod($classType, 'defaultBody', $bodyParams, withArrayFilterWrapper: true);
@@ -133,10 +142,18 @@ class RequestGenerator extends Generator
                 ->toArray();
 
             foreach ($queryParams as $queryParam) {
-                MethodGeneratorHelper::addParameterAsPromotedProperty($classConstructor, $queryParam);
+                if (!$queryParam->nullable) {
+                    MethodGeneratorHelper::addParameterAsPromotedProperty($classConstructor, $queryParam);
+                } else {
+                    $optionalParams[] = $queryParam;
+                }
             }
 
             MethodGeneratorHelper::generateArrayReturnMethod($classType, 'defaultQuery', $queryParams, withArrayFilterWrapper: true);
+        }
+
+        foreach ($optionalParams as $optionalParam) {
+            MethodGeneratorHelper::addParameterAsPromotedProperty($classConstructor, $optionalParam);
         }
 
         $namespace

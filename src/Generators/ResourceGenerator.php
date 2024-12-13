@@ -91,10 +91,16 @@ class ResourceGenerator extends Generator
 
             $method->setReturnType(Response::class);
 
+            $optionalParameters = [];
             $args = [];
 
             foreach ($endpoint->pathParameters as $parameter) {
-                $this->addPropertyToMethod($method, $parameter);
+                if (!$parameter->nullable) {
+                    $this->addPropertyToMethod($method, $parameter);
+                } else {
+                    $optionalParameters[] = $parameter;
+                }
+
                 $args[] = new Literal(sprintf('$%s', NameHelper::safeVariableName($parameter->name)));
             }
 
@@ -103,7 +109,12 @@ class ResourceGenerator extends Generator
                     continue;
                 }
 
-                $this->addPropertyToMethod($method, $parameter);
+                if (!$parameter->nullable) {
+                    $this->addPropertyToMethod($method, $parameter);
+                } else {
+                    $optionalParameters[] = $parameter;
+                }
+
                 $args[] = new Literal(sprintf('$%s', NameHelper::safeVariableName($parameter->name)));
             }
 
@@ -111,8 +122,18 @@ class ResourceGenerator extends Generator
                 if (in_array($parameter->name, $this->config->ignoredQueryParams)) {
                     continue;
                 }
-                $this->addPropertyToMethod($method, $parameter);
+
+                if (!$parameter->nullable) {
+                    $this->addPropertyToMethod($method, $parameter);
+                } else {
+                    $optionalParameters[] = $parameter;
+                }
+
                 $args[] = new Literal(sprintf('$%s', NameHelper::safeVariableName($parameter->name)));
+            }
+
+            foreach ($optionalParameters as $parameter) {
+                $this->addPropertyToMethod($method, $parameter);
             }
 
             $method->setBody(
