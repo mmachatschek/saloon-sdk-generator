@@ -91,17 +91,16 @@ class ResourceGenerator extends Generator
 
             $method->setReturnType(Response::class);
 
+            $requiredParameters = [];
             $optionalParameters = [];
             $args = [];
 
             foreach ($endpoint->pathParameters as $parameter) {
                 if (!$parameter->nullable) {
-                    $this->addPropertyToMethod($method, $parameter);
+                    $requiredParameters[] = $parameter;
                 } else {
                     $optionalParameters[] = $parameter;
                 }
-
-                $args[] = new Literal(sprintf('$%s', NameHelper::safeVariableName($parameter->name)));
             }
 
             foreach ($endpoint->bodyParameters as $parameter) {
@@ -110,12 +109,10 @@ class ResourceGenerator extends Generator
                 }
 
                 if (!$parameter->nullable) {
-                    $this->addPropertyToMethod($method, $parameter);
+                    $requiredParameters[] = $parameter;
                 } else {
                     $optionalParameters[] = $parameter;
                 }
-
-                $args[] = new Literal(sprintf('$%s', NameHelper::safeVariableName($parameter->name)));
             }
 
             foreach ($endpoint->queryParameters as $parameter) {
@@ -124,16 +121,20 @@ class ResourceGenerator extends Generator
                 }
 
                 if (!$parameter->nullable) {
-                    $this->addPropertyToMethod($method, $parameter);
+                    $requiredParameters[] = $parameter;
                 } else {
                     $optionalParameters[] = $parameter;
                 }
+            }
 
+            foreach ($requiredParameters as $parameter) {
+                $this->addPropertyToMethod($method, $parameter);
                 $args[] = new Literal(sprintf('$%s', NameHelper::safeVariableName($parameter->name)));
             }
 
             foreach ($optionalParameters as $parameter) {
                 $this->addPropertyToMethod($method, $parameter);
+                $args[] = new Literal(sprintf('$%s', NameHelper::safeVariableName($parameter->name)));
             }
 
             $method->setBody(
