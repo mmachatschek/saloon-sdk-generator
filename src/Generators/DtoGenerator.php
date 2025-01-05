@@ -87,7 +87,7 @@ class DtoGenerator extends Generator
                         $this->generated[$refName] = $this->generateDtoClass($className . Str::ucfirst($propertyName), $propertySpec);
                     }
 
-                    $property->addComment(sprintf('/** @var array<%s> */', $refName));
+                    $property->addComment(sprintf('@var array<%s>', $refName));
                 }
             }
 
