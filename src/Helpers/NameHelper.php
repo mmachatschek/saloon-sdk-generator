@@ -94,6 +94,8 @@ class NameHelper
         $value = Str::of($value)
             // Split by camelcase, ex: "YearEndNote" -> "Year End Note"
             ->replaceMatches('/([a-z])([A-Z])/', '$1 $2')
+            // Split preceding numbers
+            ->replaceMatches('/([0-9])([A-Z])/', '$1 $2')
             ->replace(' a ', ' ')
             ->replace(' an ', ' ')
             ->replace("'s ", ' ')
