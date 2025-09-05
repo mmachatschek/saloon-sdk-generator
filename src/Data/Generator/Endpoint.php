@@ -22,6 +22,8 @@ class Endpoint
         public array $queryParameters = [],
         public array $pathParameters = [],
         public array $bodyParameters = [],
+
+        public bool $hasTrailingSlash = false,
     ) {
     }
 

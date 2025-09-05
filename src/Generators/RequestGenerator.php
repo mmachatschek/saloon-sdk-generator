@@ -98,8 +98,8 @@ class RequestGenerator extends Generator
                             ? new Literal(sprintf('{$this->%s}', NameHelper::safeVariableName($segment)))
                             : $segment;
                     })
-                    ->pipe(function (Collection $segments) {
-                        return new Literal(sprintf('return "/%s";', $segments->implode('/')));
+                    ->pipe(function (Collection $segments) use ($endpoint) {
+                        return new Literal(sprintf('return "/%s%s";', $segments->implode('/'), $endpoint->hasTrailingSlash ? '/' : ''));
                     })
 
             );
