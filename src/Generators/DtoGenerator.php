@@ -26,6 +26,9 @@ class DtoGenerator extends Generator
 
         if ($specification->components) {
             foreach ($specification->components->schemas as $className => $schema) {
+                if ($schema instanceof Reference) {
+                    continue;
+                }
                 $this->generateDtoClass(NameHelper::safeClassName($className), $schema);
             }
         }

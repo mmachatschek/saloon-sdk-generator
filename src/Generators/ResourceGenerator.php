@@ -58,6 +58,8 @@ class ResourceGenerator extends Generator
             ->addNamespace("{$this->config->namespace}\\{$this->config->resourceNamespaceSuffix}")
             ->addUse(BaseResource::class);
 
+        $namespace->add($classType);
+
         $duplicateCounter = 1;
 
         foreach ($endpoints as $endpoint) {
@@ -142,8 +144,6 @@ class ResourceGenerator extends Generator
             );
 
         }
-
-        $namespace->add($classType);
 
         return $classFile;
     }

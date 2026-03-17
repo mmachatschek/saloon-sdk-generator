@@ -48,11 +48,6 @@ class GenerateSdk extends Command
                 resourceNamespaceSuffix: 'Resource',
                 requestNamespaceSuffix: 'Requests',
                 dtoNamespaceSuffix: 'Dto',
-                ignoredQueryParams: [
-                    'after',
-                    'order_by',
-                    'per_page',
-                ]
             )
         );
 
