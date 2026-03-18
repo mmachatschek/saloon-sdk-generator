@@ -12,6 +12,7 @@ use cebe\openapi\spec\PathItem;
 use cebe\openapi\spec\Paths;
 use cebe\openapi\spec\SecurityRequirement;
 use cebe\openapi\spec\Server;
+use cebe\openapi\spec\Reference;
 use cebe\openapi\spec\Type;
 use Crescat\SaloonSdkGenerator\Contracts\Parser;
 use Crescat\SaloonSdkGenerator\Data\Generator\ApiKeyLocation;
@@ -177,7 +178,7 @@ class OpenApiParser implements Parser
             ->whereInstanceOf(OpenApiParameter::class)
             ->filter(fn (OpenApiParameter $parameter) => $parameter->in == $in)
             ->map(fn (OpenApiParameter $parameter) => new Parameter(
-                type: $this->mapSchemaTypeToPhpType($parameter->schema?->type),
+                type: $this->mapSchemaTypeToPhpType($parameter->schema instanceof Reference ? null : $parameter->schema?->type),
                 nullable: $parameter->required == false,
                 name: $parameter->name,
                 description: $parameter->description,
