@@ -145,27 +145,23 @@ class ConnectorGenerator extends Generator
                     );
                     MethodGeneratorHelper::addParameterAsPromotedProperty(
                         $classConstructor,
-                        new Parameter(type: 'string', nullable: true, name: 'authorizationUrl'),
-                        $securityScheme->flows->authorizationCode->authorizationUrl ?? null
+                        new Parameter(type: 'string', nullable: true, name: 'authorizationUrl', defaultValue: $securityScheme->flows->authorizationCode->authorizationUrl ?? null),
 
                     );
                     MethodGeneratorHelper::addParameterAsPromotedProperty(
                         $classConstructor,
-                        new Parameter(type: 'string', nullable: true, name: 'tokenUrl'),
-                        $securityScheme->flows->authorizationCode->tokenUrl ?? null
+                        new Parameter(type: 'string', nullable: true, name: 'tokenUrl', defaultValue: $securityScheme->flows->authorizationCode->tokenUrl ?? null),
 
                     );
                     MethodGeneratorHelper::addParameterAsPromotedProperty(
                         $classConstructor,
-                        new Parameter(type: 'string', nullable: true, name: 'refreshUrl'),
-                        $securityScheme->flows->authorizationCode->refreshUrl ?? null
+                        new Parameter(type: 'string', nullable: true, name: 'refreshUrl', defaultValue: $securityScheme->flows->authorizationCode->refreshUrl ?? null),
 
                     );
 
                     MethodGeneratorHelper::addParameterAsPromotedProperty(
                         $classConstructor,
-                        new Parameter(type: 'array', nullable: true, name: 'scopes'),
-                        $securityScheme->flows->authorizationCode->scopes ?? []
+                        new Parameter(type: 'array', nullable: true, name: 'scopes', defaultValue: $securityScheme->flows->authorizationCode->scopes ?? []),
                     );
                 }
 
@@ -184,21 +180,18 @@ class ConnectorGenerator extends Generator
 
                     MethodGeneratorHelper::addParameterAsPromotedProperty(
                         $classConstructor,
-                        new Parameter(type: 'string', nullable: true, name: 'tokenUrl'),
-                        $securityScheme->flows->clientCredentials->tokenUrl ?? null
+                        new Parameter(type: 'string', nullable: true, name: 'tokenUrl', defaultValue: $securityScheme->flows->clientCredentials->tokenUrl ?? null),
 
                     );
                     MethodGeneratorHelper::addParameterAsPromotedProperty(
                         $classConstructor,
-                        new Parameter(type: 'string', nullable: true, name: 'refreshUrl'),
-                        $securityScheme->flows->clientCredentials->refreshUrl ?? null
+                        new Parameter(type: 'string', nullable: true, name: 'refreshUrl', defaultValue: $securityScheme->flows->clientCredentials->refreshUrl ?? null),
 
                     );
 
                     MethodGeneratorHelper::addParameterAsPromotedProperty(
                         $classConstructor,
-                        new Parameter(type: 'array', nullable: true, name: 'scopes'),
-                        $securityScheme->flows->clientCredentials->scopes ?? []
+                        new Parameter(type: 'array', nullable: true, name: 'scopes', defaultValue: $securityScheme->flows->clientCredentials->scopes ?? []),
                     );
                 }
 

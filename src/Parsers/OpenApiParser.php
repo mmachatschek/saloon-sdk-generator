@@ -10,6 +10,7 @@ use cebe\openapi\spec\Operation;
 use cebe\openapi\spec\Parameter as OpenApiParameter;
 use cebe\openapi\spec\PathItem;
 use cebe\openapi\spec\Paths;
+use cebe\openapi\spec\Schema;
 use cebe\openapi\spec\SecurityRequirement;
 use cebe\openapi\spec\Server;
 use cebe\openapi\spec\Reference;
@@ -182,6 +183,7 @@ class OpenApiParser implements Parser
                 nullable: $parameter->required == false,
                 name: $parameter->name,
                 description: $parameter->description,
+                defaultValue: $parameter->schema instanceof Schema ? $parameter->schema->default : null,
             ))
             ->all();
     }

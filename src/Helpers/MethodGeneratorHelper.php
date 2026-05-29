@@ -23,7 +23,6 @@ class MethodGeneratorHelper
     public static function addParameterAsPromotedProperty(
         Method $method,
         Parameter $parameter,
-        mixed $defaultValue = null,
         bool $sensitive = false
     ): Method {
         // TODO: validate that this is a constructor, promported properties are only supported on constructors.
@@ -46,8 +45,9 @@ class MethodGeneratorHelper
             ->setNullable($parameter->nullable)
             ->setProtected();
 
-        if ($defaultValue !== null) {
-            $property->setDefaultValue($defaultValue);
+
+        if ($parameter->defaultValue !== null) {
+            $property->setDefaultValue($parameter->defaultValue);
         } elseif ($parameter->nullable) {
             $property->setDefaultValue(null);
         }
